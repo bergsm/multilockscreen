@@ -45,6 +45,18 @@ init_config () {
 	CACHE_DIR="$HOME/.cache/multilock"
 	CUR_DIR="$CACHE_DIR/current"
 
+    # display lockscreens
+    #TODO paths to lockscreens for each display
+
+	#get_display_list # DISPLAY_LIST
+
+	#for display in "${DISPLAY_LIST[@]}"; do
+	#	local id="${dinfo[0]}"
+	#	local device="${dinfo[1]}"
+
+    #    IFS=' ' read -r -a dinfo <<< "$display"
+    #    CUR_L_DISP$id_BLUR="CACHE_DIR/$id-$device/blur.png"
+
 	# wallpaper
 	CUR_W_RESIZE="$CUR_DIR/wall_resize.png"
 	CUR_W_DIM="$CUR_DIR/wall_dim.png"
@@ -60,6 +72,8 @@ init_config () {
 	CUR_L_DIMBLUR="$CUR_DIR/lock_dimblur.png"
 	CUR_L_PIXEL="$CUR_DIR/lock_pixel.png"
 	CUR_L_COLOR="$CUR_DIR/lock_color.png"
+    #TODO remove
+    CUR_L_1MONI="$CACHE_DIR/1-eDP/blur.png"
 
 	# Original DPMS timeout
 	DEFAULT_TIMEOUT=$(cut -d ' ' -f4 <<< "$(xset q | sed -n '25p')")
@@ -120,14 +134,22 @@ lockselect() {
 
 	prelock
 
-	case "$1" in
-		dim) [[ -f "$CUR_L_DIM" ]] && lock "$CUR_L_DIM";;
-		blur) [[ -f "$CUR_L_BLUR" ]] && lock "$CUR_L_BLUR";;
-		dimblur) [[ -f "$CUR_L_DIMBLUR" ]] && lock "$CUR_L_DIMBLUR";;
-		pixel) [[ -f "$CUR_L_PIXEL" ]] && lock "$CUR_L_PIXEL";;
-		color) [[ -f "$CUR_L_COLOR" ]] && lock "$CUR_L_COLOR";;
-		*) [[ -f "$CUR_L_RESIZE" ]] && lock "$CUR_L_RESIZE";;
-	esac
+
+    #TODO add 1 monitor option and make more robust
+    local num_monitors=$(xrandr --listactivemonitors | sed -n 1p | cut -d " " -f 2)
+
+    if [ "$num_monitors" -lt 2 ]; then
+        lock "$CUR_L_1MONI";
+    else
+        case "$1" in
+            dim) [[ -f "$CUR_L_DIM" ]] && lock "$CUR_L_DIM";;
+            blur) [[ -f "$CUR_L_BLUR" ]] && lock "$CUR_L_BLUR";;
+            dimblur) [[ -f "$CUR_L_DIMBLUR" ]] && lock "$CUR_L_DIMBLUR";;
+            pixel) [[ -f "$CUR_L_PIXEL" ]] && lock "$CUR_L_PIXEL";;
+            color) [[ -f "$CUR_L_COLOR" ]] && lock "$CUR_L_COLOR";;
+            *) [[ -f "$CUR_L_RESIZE" ]] && lock "$CUR_L_RESIZE";;
+        esac
+    fi
 
 	postlock
 }
