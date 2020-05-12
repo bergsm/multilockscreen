@@ -188,7 +188,8 @@ logical_px() {
 
 # get total resolution, sets $TOTAL_SIZE
 get_total_size () {
-	TOTAL_SIZE=$(xdpyinfo | grep -w "dimensions" | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
+	#TOTAL_SIZE=$(xdpyinfo | grep -w "dimensions" | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
+	TOTAL_SIZE=$(cat $CACHE_DIR/displays/totalsize)
 }
 
 # get list of displays, sets $DISPLAY_LIST
