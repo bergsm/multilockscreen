@@ -103,6 +103,7 @@ lock() {
 		-i "$image" \
 		--screen "$display_on" \
 		--timepos='ix-170:iy-0' \
+		--timestr="%H:%M" \
 		--datepos='ix-240:iy+25' \
 		--clock --date-align 1 --datestr "$locktext" \
 		--insidecolor=$insidecolor --ringcolor=$ringcolor --line-uses-inside \
@@ -122,6 +123,9 @@ postlock() {
 	if [ -n "$lock_timeout" ]; then
 		xset dpms "$DEFAULT_TIMEOUT"
 	fi
+
+    #xdotool key Super+Shift+r
+
 	# unpause dunst
 	if [ -n "$(pidof dunst)" ] ; then
 		pkill -u "$USER" -USR2 dunst
@@ -189,8 +193,10 @@ get_total_size () {
 
 # get list of displays, sets $DISPLAY_LIST
 get_display_list () {
+    #TODO use cache to save any monitors that have ever been used to customize wallpaper
 	local count=0
-	mapfile -t displays < <(xrandr --listactivemonitors)
+	#mapfile -t displays < <(xrandr --listactivemonitors)
+	mapfile -t displays < <(cat $CACHE_DIR/displays/monitors)
 	for display in "${displays[@]:1}"; do
 		((count++))
 		display="$(echo "$display" | sed -r 's/\/[0-9]*//g')"
@@ -334,8 +340,8 @@ create_loginbox () {
 	RECTANGLE="$CUR_DIR/rectangle.png"
 	local shadow="$CUR_DIR/shadow.png"
 	local width height
-	width=$(logical_px 300 1)
-	height=$(logical_px 80 2)
+	width=$(logical_px 400 1)
+	height=$(logical_px 100 2)
 	convert -size "$width"x"$height" xc:\#"$loginbox" -fill none $RECTANGLE
 	convert $RECTANGLE \
 		\( -clone 0 -background \#"$loginshadow" -shadow 100x5+0+0 \) +swap \
@@ -390,8 +396,11 @@ update () {
 			pos_x="${sym[0]}${val[0]}"
 			pos_y="${sym[1]}${val[1]}"
 
-			rect_x=$((pos_x + $(logical_px 15 1)))
-			rect_y=$((pos_y + res_y - $(logical_px 120 2)))
+            #TODO need to make dynamic for dpi
+			rect_x=$((pos_x + $(logical_px 50 1)))
+			#rect_x=$((pos_x + $(logical_px 15 1)))
+			rect_y=$((pos_y + res_y - $(logical_px 165 2)))
+			#rect_y=$((pos_y + res_y - $(logical_px 120 2)))
 			positions+=("+$((rect_x))+$((rect_y))")
 		fi
 
