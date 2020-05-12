@@ -188,6 +188,7 @@ logical_px() {
 
 # get total resolution, sets $TOTAL_SIZE
 get_total_size () {
+    #TODO use conditional if no file exists
 	#TOTAL_SIZE=$(xdpyinfo | grep -w "dimensions" | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
 	TOTAL_SIZE=$(cat $CACHE_DIR/displays/totalsize)
 }
@@ -196,6 +197,7 @@ get_total_size () {
 get_display_list () {
     #TODO use cache to save any monitors that have ever been used to customize wallpaper
 	local count=0
+    #TODO use conditional if no file exists
 	#mapfile -t displays < <(xrandr --listactivemonitors)
 	mapfile -t displays < <(cat $CACHE_DIR/displays/monitors)
 	for display in "${displays[@]:1}"; do
