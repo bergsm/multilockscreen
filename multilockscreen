@@ -368,6 +368,15 @@ update () {
 
 	local image="$1"
 
+    #TODO implement cache system
+
+    #Run cmp command on cache against arg image
+
+    #If found
+        #set cached lock screen to active
+    #Else
+        #Create new cache dir and start generating lock screen
+
 	echo "Updating Image Cache..."
 	mkdir -p "$CACHE_DIR" &>/dev/null
 
@@ -475,7 +484,15 @@ update () {
 
 	[[ $RECTANGLE ]] && rm "$RECTANGLE"
 
-	echo "Done"
+    #Purge oldest cache dir
+
+    #Cascade old cache dirs down (i.e. 3 to 4, 4 to 5)
+
+    #Set new cache dir to active/current
+
+    #Remove new cache dir
+
+    echo "Done"
 
 }
 
