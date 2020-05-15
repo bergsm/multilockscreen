@@ -73,7 +73,8 @@ init_config () {
 	CUR_L_PIXEL="$CUR_DIR/lock_pixel.png"
 	CUR_L_COLOR="$CUR_DIR/lock_color.png"
     #TODO remove
-    CUR_L_1MONI="$CACHE_DIR/1-eDP/blur.png"
+    #CUR_L_1MONI="$CACHE_DIR/1-eDP/blur.png"
+    CUR_L_1MONI="$CACHE_DIR/1-eDP/resize.png"
 
 	# Original DPMS timeout
 	DEFAULT_TIMEOUT=$(cut -d ' ' -f4 <<< "$(xset q | sed -n '25p')")
