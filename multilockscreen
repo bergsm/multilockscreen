@@ -103,6 +103,7 @@ lock() {
 	i3lock \
 		-i "$image" \
 		--screen "$display_on" \
+        -c 00000000 \
 		--timepos='ix-170:iy-0' \
 		--timestr="%H:%M" \
 		--datepos='ix-240:iy+25' \
@@ -149,6 +150,7 @@ lockselect() {
         case "$1" in
             dim) [[ -f "$CUR_L_DIM" ]] && lock "$CUR_L_DIM";;
             blur) [[ -f "$CUR_L_BLUR" ]] && lock "$CUR_L_BLUR";;
+            1moni) [[ -f "$CUR_L_1MONI" ]] && lock "$CUR_L_1MONI";;
             dimblur) [[ -f "$CUR_L_DIMBLUR" ]] && lock "$CUR_L_DIMBLUR";;
             pixel) [[ -f "$CUR_L_PIXEL" ]] && lock "$CUR_L_PIXEL";;
             color) [[ -f "$CUR_L_COLOR" ]] && lock "$CUR_L_COLOR";;
